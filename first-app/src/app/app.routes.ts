@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { WorldComponent } from './world/world.component';
+import { World } from './world/world';
 
 export const routes: Routes = [
   {
@@ -9,6 +9,6 @@ export const routes: Routes = [
   },
   {
     path: 'map',
-    component: WorldComponent
+    component: World
   }
 ];
