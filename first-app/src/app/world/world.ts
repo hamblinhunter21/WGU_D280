@@ -10,10 +10,10 @@ import { WorldBankService } from '../services/world-bank';
   selector: 'app-world',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './world.component.html',
-  styleUrls: ['./world.component.css']
+  templateUrl: './world.html',
+  styleUrls: ['./world.css']
 })
-export class WorldComponent implements AfterViewInit {
+export class World implements AfterViewInit {
 
   countryData: any;
 
