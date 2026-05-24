@@ -1,6 +1,35 @@
-<object
-  type="image/svg+xml"
-  data="assets/map-image.svg"
-  width="100%"
-  height="600">
-</object>
+<div class="container">
+
+  <div class="map-column">
+
+    <object
+      data="assets/world.svg"
+      type="image/svg+xml"
+      id="svgMap">
+    </object>
+
+  </div>
+
+  <div class="info-column">
+
+    <h2>Country Information</h2>
+
+    <div *ngIf="countryData">
+
+      <p><strong>Name:</strong> {{ countryData.name }}</p>
+
+      <p><strong>Capital:</strong> {{ countryData.capitalCity }}</p>
+
+      <p><strong>Region:</strong> {{ countryData.region.value }}</p>
+
+      <p><strong>Income Level:</strong> {{ countryData.incomeLevel.value }}</p>
+
+      <p><strong>Latitude:</strong> {{ countryData.latitude }}</p>
+
+      <p><strong>Longitude:</strong> {{ countryData.longitude }}</p>
+
+    </div>
+
+  </div>
+
+</div>
