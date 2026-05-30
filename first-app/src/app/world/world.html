@@ -7,7 +7,8 @@
     type="image/svg+xml" 
     data="assets/map-image.svg" 
     width="100%" 
-    height="700">
+    height="700"
+    aria-label="Interactive world map">
     </object>
 
   </div>
@@ -16,7 +17,15 @@
 
     <h2>Country Information</h2>
 
-    <div *ngIf="countryData">
+    <div *ngIf="isLoading" class="loading">
+      <p>Loading country data...</p>
+    </div>
+
+    <div *ngIf="error" class="error">
+      <p>⚠️ {{ error }}</p>
+    </div>
+
+    <div *ngIf="countryData && !isLoading" class="country-info">
 
       <p><strong>Name:</strong> {{ countryData.name }}</p>
 
@@ -30,6 +39,10 @@
 
       <p><strong>Longitude:</strong> {{ countryData.longitude }}</p>
 
+    </div>
+
+    <div *ngIf="!countryData && !isLoading && !error" class="no-selection">
+      <p>Click on a country to view information</p>
     </div>
 
   </div>
