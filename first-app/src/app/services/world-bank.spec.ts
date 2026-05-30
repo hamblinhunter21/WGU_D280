@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { WorldBankService } from './world-bank';
 import { CountryResponse } from '../models/country';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
 describe('WorldBankService', () => {
   let service: WorldBankService;
@@ -24,7 +25,7 @@ describe('WorldBankService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should fetch country data and extract correct response', (done) => {
+  it('should fetch country data and extract correct response', async () => {
     const mockCountryData: CountryResponse = {
       id: 'US',
       name: 'United States',
@@ -37,29 +38,37 @@ describe('WorldBankService', () => {
 
     const mockResponse = [{ page: 1 }, [mockCountryData]];
 
+   let resultData: CountryResponse | undefined;
+    
     service.getCountryData('US').subscribe({
       next: (data) => {
-        expect(data.name).toBe('United States');
-        expect(data.capitalCity).toBe('Washington');
-        done();
+        resultData = data;
       }
     });
 
     const req = httpMock.expectOne(req => req.url.includes('/country/US'));
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
+    
+    expect(resultData?.name).toBe('United States');
+    expect(resultData?.capitalCity).toBe('Washington');
   });
 
-  it('should handle error response gracefully', (done) => {
+  it('should handle error response gracefully', async () => {
+    let errorMessage: string | undefined;
+    
     service.getCountryData('INVALID').subscribe({
-      next: () => fail('should have failed'),
+      next: () => {
+        expect.fail('should have failed');
+      },
       error: (error) => {
-        expect(error.message).toContain('Failed to load country data');
-        done();
+        errorMessage = error.message;
       }
     });
 
     const req = httpMock.expectOne(req => req.url.includes('/country/INVALID'));
     req.flush(null);
+    
+    expect(errorMessage).toContain('Failed to load country data');
   });
 });
